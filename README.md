@@ -43,6 +43,8 @@ The product is intentionally research-first. Broker execution, if added later, s
 - Repository: https://github.com/haysung1191-eng/ai-quant-builder
 - Product roadmap: ./ROADMAP.md
 - Review FAQ: ./FAQ.md
+- Public MVP milestone: https://github.com/haysung1191-eng/ai-quant-builder/milestone/1
+- Public product issues: https://github.com/haysung1191-eng/ai-quant-builder/issues
 
 ## Founder
 
