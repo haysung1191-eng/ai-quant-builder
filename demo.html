@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Quant Builder Demo</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #18201f;
+      --muted: #5d6864;
+      --line: #d8ded8;
+      --panel: #ffffff;
+      --green: #1b6b4a;
+      --blue: #22577a;
+      --red: #9f3b2f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
+    header {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    a { color: inherit; }
+    .brand { font-weight: 800; }
+    .nav {
+      display: flex;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 28px 58px;
+    }
+    .intro {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+    h1 {
+      font-size: 42px;
+      line-height: 1;
+      margin: 0 0 12px;
+    }
+    .lead {
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 720px;
+      margin: 0;
+    }
+    .badge {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .panel-head {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 800;
+    }
+    .panel-body { padding: 16px; }
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      resize: vertical;
+      padding: 12px;
+      font: inherit;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    select, input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 10px;
+      font: inherit;
+      background: #fff;
+    }
+    button {
+      width: 100%;
+      height: 44px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--ink);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px;
+      background: #fbfcfa;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .chart {
+      height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background:
+        linear-gradient(180deg, transparent 24%, rgba(216,222,216,.8) 25%, transparent 26%),
+        linear-gradient(180deg, transparent 49%, rgba(216,222,216,.8) 50%, transparent 51%),
+        linear-gradient(180deg, transparent 74%, rgba(216,222,216,.8) 75%, transparent 76%),
+        #fff;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .area {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 28px;
+      height: 122px;
+      clip-path: polygon(0 76%, 8% 65%, 16% 70%, 24% 51%, 32% 56%, 41% 38%, 50% 45%, 60% 28%, 70% 36%, 80% 18%, 90% 24%, 100% 10%, 100% 100%, 0 100%);
+      background: rgba(27, 107, 74, .2);
+      border-top: 4px solid var(--green);
+    }
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px;
+      background: #fff;
+      min-height: 132px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+    .card p, .card li {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .risk { color: var(--red); }
+    .ok { color: var(--green); }
+    .note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    @media (max-width: 920px) {
+      header { padding: 0 18px; }
+      .nav { display: none; }
+      main { padding: 24px 16px 42px; }
+      .intro { display: block; }
+      .badge { display: inline-block; margin-top: 14px; }
+      .workspace { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .report-grid { grid-template-columns: 1fr; }
+      .field-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">AI Quant Builder</div>
+    <div class="nav">
+      <a href="./index.html">Home</a>
+      <a href="./ROADMAP.md">Roadmap</a>
+      <a href="./FAQ.md">FAQ</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <h1>Idea-to-report demo</h1>
+        <p class="lead">
+          This static demo shows the intended MVP experience: convert a plain-language investment idea into a strategy validation report before trading.
+        </p>
+      </div>
+      <div class="badge">Research-first, not financial advice</div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel">
+        <div class="panel-head">
+          <span>Investment idea</span>
+          <span>Step 1</span>
+        </div>
+        <div class="panel-body">
+          <label for="idea">Plain-language input</label>
+          <textarea id="idea">Buy leading AI infrastructure stocks after a 20-day breakout, but avoid entries when market volatility is extreme.</textarea>
+
+          <div class="field-grid">
+            <div>
+              <label for="market">Market</label>
+              <select id="market">
+                <option>US stocks / ETFs</option>
+                <option>Korean stocks / ETFs</option>
+                <option>Crypto spot</option>
+              </select>
+            </div>
+            <div>
+              <label for="period">Backtest period</label>
+              <select id="period">
+                <option>5 years</option>
+                <option>3 years</option>
+                <option>1 year</option>
+              </select>
+            </div>
+            <div>
+              <label for="risk">Risk level</label>
+              <select id="risk">
+                <option>Moderate</option>
+                <option>Conservative</option>
+                <option>Aggressive</option>
+              </select>
+            </div>
+            <div>
+              <label for="cost">Trading cost</label>
+              <input id="cost" value="0.15% per trade" />
+            </div>
+          </div>
+
+          <button type="button" onclick="renderReport()">Generate validation report</button>
+          <p class="note">
+            Demo data is illustrative. A real product must connect to verified market data, explicit assumptions, and compliance-safe warnings.
+          </p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span>Validation report</span>
+          <span>Step 2</span>
+        </div>
+        <div class="panel-body">
+          <div class="metrics">
+            <div class="metric"><strong id="returnMetric">14.8%</strong><span>Illustrative annualized return</span></div>
+            <div class="metric"><strong id="drawdownMetric">-11.2%</strong><span>Illustrative max drawdown</span></div>
+            <div class="metric"><strong id="hitMetric">54%</strong><span>Illustrative hit rate</span></div>
+            <div class="metric"><strong id="riskMetric">0.71</strong><span>Illustrative risk score</span></div>
+          </div>
+
+          <div class="chart"><div class="area"></div></div>
+
+          <div class="report-grid">
+            <div class="card">
+              <h3>Extracted strategy rules</h3>
+              <ul id="rules">
+                <li>Universe: AI infrastructure leaders</li>
+                <li>Entry: 20-day breakout</li>
+                <li>Filter: avoid high-volatility regimes</li>
+                <li>Exit: trend failure or risk stop</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Weaknesses</h3>
+              <ul>
+                <li>Breakouts can fail during sharp reversals.</li>
+                <li>High turnover can reduce edge after costs.</li>
+                <li>Theme concentration can increase drawdown.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="ok">Suggested improvements</h3>
+              <ul>
+                <li>Add volatility and market-regime filters.</li>
+                <li>Cap position size per theme.</li>
+                <li>Compare original vs revised strategy.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 class="risk">Risk note</h3>
+              <p>
+                This report is for research and validation. It does not guarantee returns and should not be treated as personalized financial advice.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function renderReport() {
+      const risk = document.getElementById('risk').value;
+      const market = document.getElementById('market').value;
+      document.getElementById('returnMetric').textContent = risk === 'Conservative' ? '9.6%' : risk === 'Aggressive' ? '18.3%' : '14.8%';
+      document.getElementById('drawdownMetric').textContent = risk === 'Conservative' ? '-7.4%' : risk === 'Aggressive' ? '-18.9%' : '-11.2%';
+      document.getElementById('hitMetric').textContent = risk === 'Conservative' ? '57%' : risk === 'Aggressive' ? '51%' : '54%';
+      document.getElementById('riskMetric').textContent = risk === 'Conservative' ? '0.48' : risk === 'Aggressive' ? '0.86' : '0.71';
+      const universe = market === 'Crypto spot' ? 'Crypto spot assets' : market === 'Korean stocks / ETFs' ? 'Korean stocks and ETFs' : 'US stocks and ETFs';
+      document.getElementById('rules').innerHTML = [
+        '<li>Universe: ' + universe + '</li>',
+        '<li>Entry: 20-day breakout</li>',
+        '<li>Filter: avoid high-volatility regimes</li>',
+        '<li>Exit: trend failure or risk stop</li>'
+      ].join('');
+    }
+  </script>
+</body>
+</html>

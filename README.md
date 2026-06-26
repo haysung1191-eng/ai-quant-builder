@@ -40,6 +40,7 @@ The product is intentionally research-first. Broker execution, if added later, s
 ## Public Assets
 
 - Landing page: https://haysung1191-eng.github.io/ai-quant-builder/
+- Static demo: https://haysung1191-eng.github.io/ai-quant-builder/demo.html
 - Repository: https://github.com/haysung1191-eng/ai-quant-builder
 - Product roadmap: ./ROADMAP.md
 - Review FAQ: ./FAQ.md
