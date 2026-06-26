@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Quant Builder</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #18201f;
+      --muted: #5b6864;
+      --line: #d8ded8;
+      --panel: #ffffff;
+      --green: #1b6b4a;
+      --blue: #22577a;
+      --amber: #b56a14;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
+    header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 248, 245, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 18px;
+    }
+    nav {
+      display: flex;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+      gap: 42px;
+      align-items: center;
+      padding: 64px 40px 44px;
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(46px, 7vw, 86px);
+      line-height: 0.95;
+      margin: 0 0 22px;
+      max-width: 780px;
+    }
+    .lead {
+      font-size: 20px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 30px;
+    }
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      min-height: 44px;
+      padding: 12px 18px;
+      font-weight: 700;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+    .product-shot {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 18px 48px rgba(24, 32, 31, 0.13);
+      overflow: hidden;
+    }
+    .topbar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #c4cbc5; }
+    .screen {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      min-height: 520px;
+    }
+    .prompt {
+      padding: 22px;
+      border-right: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .idea {
+      min-height: 142px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px;
+      line-height: 1.5;
+      background: white;
+      font-size: 15px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: white;
+    }
+    .report {
+      padding: 22px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px;
+      background: #fff;
+    }
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .chart {
+      height: 176px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background:
+        linear-gradient(180deg, transparent 24%, rgba(216,222,216,.7) 25%, transparent 26%),
+        linear-gradient(180deg, transparent 49%, rgba(216,222,216,.7) 50%, transparent 51%),
+        linear-gradient(180deg, transparent 74%, rgba(216,222,216,.7) 75%, transparent 76%),
+        #ffffff;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .line {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 34px;
+      height: 92px;
+      clip-path: polygon(0 75%, 12% 58%, 22% 64%, 34% 42%, 47% 48%, 58% 30%, 70% 40%, 84% 18%, 100% 12%, 100% 100%, 0 100%);
+      background: rgba(27, 107, 74, 0.22);
+      border-top: 4px solid var(--green);
+    }
+    .insight {
+      display: grid;
+      gap: 8px;
+    }
+    .insight-row {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 10px;
+      align-items: start;
+      font-size: 13px;
+      line-height: 1.45;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+    .tag {
+      font-weight: 800;
+      color: var(--blue);
+    }
+    section {
+      border-top: 1px solid var(--line);
+      padding: 62px 40px;
+    }
+    .inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-size: 32px;
+      margin: 0 0 24px;
+    }
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .block h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .block p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    footer {
+      padding: 34px 40px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 900px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 44px 20px 34px;
+      }
+      .screen { grid-template-columns: 1fr; }
+      .prompt { border-right: 0; border-bottom: 1px solid var(--line); }
+      .columns { grid-template-columns: 1fr; }
+      section { padding: 44px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">AI Quant Builder</div>
+    <nav>
+      <span>Problem</span>
+      <span>Solution</span>
+      <span>Founder</span>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div>
+      <div class="eyebrow">No-code AI investment strategy builder</div>
+      <h1>Test before you trade.</h1>
+      <p class="lead">
+        AI Quant Builder turns plain-language investment ideas into backtested, risk-checked strategy reports so retail investors can improve their thinking before making a trade.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="mailto:haysung1191@gmail.com">Contact Founder</a>
+        <a class="btn secondary" href="#solution">View Product Direction</a>
+      </div>
+    </div>
+
+    <div class="product-shot" aria-label="Product concept interface">
+      <div class="topbar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span>Strategy validation report</span>
+      </div>
+      <div class="screen">
+        <div class="prompt">
+          <div class="label">Investment idea</div>
+          <div class="idea">
+            "Buy leading AI infrastructure stocks after a 20-day breakout, but avoid entries when market volatility is extreme."
+          </div>
+          <div class="chips">
+            <span class="chip">Natural language</span>
+            <span class="chip">Backtest</span>
+            <span class="chip">Drawdown</span>
+            <span class="chip">Risk check</span>
+            <span class="chip">Improve rules</span>
+          </div>
+        </div>
+        <div class="report">
+          <div class="metric-grid">
+            <div class="metric"><strong>14.8%</strong><span>Annualized return</span></div>
+            <div class="metric"><strong>-11.2%</strong><span>Max drawdown</span></div>
+            <div class="metric"><strong>0.71</strong><span>Risk score</span></div>
+          </div>
+          <div class="chart"><div class="line"></div></div>
+          <div class="insight">
+            <div class="insight-row"><div class="tag">Weakness</div><div>Breakout entries failed during high-volatility reversals.</div></div>
+            <div class="insight-row"><div class="tag">Upgrade</div><div>Add a volatility filter and position-size cap before execution.</div></div>
+            <div class="insight-row"><div class="tag">Next</div><div>Run out-of-sample validation before turning this idea into a live rule.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section id="problem">
+    <div class="inner">
+      <h2>The problem</h2>
+      <div class="columns">
+        <div class="block">
+          <h3>Trading is too easy</h3>
+          <p>Retail apps make buy and sell buttons instant, but most users still trade from intuition.</p>
+        </div>
+        <div class="block">
+          <h3>Validation is too hard</h3>
+          <p>Backtesting, drawdown analysis, and strategy improvement are still technical workflows.</p>
+        </div>
+        <div class="block">
+          <h3>Risk is invisible</h3>
+          <p>Investors often do not know when their idea fails, how large losses can get, or whether costs erase the edge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solution">
+    <div class="inner">
+      <h2>The solution</h2>
+      <div class="columns">
+        <div class="block">
+          <h3>Idea to strategy</h3>
+          <p>Users write an investment idea in plain language. AI converts it into testable strategy logic.</p>
+        </div>
+        <div class="block">
+          <h3>Strategy to report</h3>
+          <p>The product runs backtests, risk checks, failure-period analysis, and out-of-sample validation.</p>
+        </div>
+        <div class="block">
+          <h3>Report to better decision</h3>
+          <p>Users get improvement suggestions before they make a trade. The first product is research-first, not advice-first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="founder">
+    <div class="inner">
+      <h2>Founder</h2>
+      <div class="columns">
+        <div class="block">
+          <h3>HAESEONG LEE</h3>
+          <p>Solo founder based in Seoul, South Korea, currently working at Korea Railroad Corporation.</p>
+        </div>
+        <div class="block">
+          <h3>Current stage</h3>
+          <p>Internal MVP and prototype built around market data, model validation, execution-plan style artifacts, and AI-assisted development.</p>
+        </div>
+        <div class="block">
+          <h3>Next milestone</h3>
+          <p>Ship a simple web MVP where early users can enter an idea and receive a backtest, risk report, and AI improvement suggestions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    AI Quant Builder is an investment research and strategy validation tool. It does not guarantee returns or provide personalized financial advice.
+  </footer>
+</body>
+</html>
